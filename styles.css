@@ -1,0 +1,749 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #e0f7ff 0%, #009292 100%); /* 135degから180degに変更 */
+    transition: background 0.5s ease;
+}
+
+.gradient-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(180deg, #ffecf2 0%, #FF74B7 100%); /* 135degから180degに変更 */
+    opacity: 0;
+    z-index: -1;
+}
+
+/* ヘッダーセクション */
+.site-header {
+    width: 100%;
+    margin-bottom: 80px;
+    opacity: 0;
+}
+
+.header-image {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+.header-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.interview-intro {
+    background: #fff;
+    padding: 60px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.intro-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.intro-content h1 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
+
+.interview-description {
+    font-size: 1.1em;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.interview-description p {
+    margin-bottom: 20px;
+}
+
+.interview-meta {
+    color: #666;
+    font-size: 0.9em;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+/* メインコンテンツ */
+.container {
+    max-width: 100%; /* 1000pxの制限を解除 */
+    margin: 0;
+    padding: 40px 0; /* 左右のpaddingを削除 */
+    position: relative;
+}
+
+.interview-item {
+    margin-bottom: 150px;
+    opacity: 0;
+    transform: translateY(50px);
+    position: relative;
+}
+
+/* 質問と回答のコンテナ */
+.qa-container {
+    width: 45%;
+    max-width: 600px; /* 最大幅を設定 */
+    position: relative;
+}
+
+/* デフォルトレイアウト（左寄せ） */
+.questions-container {
+    width: 100%;
+    margin: 0 0 20px 0;
+}
+
+/* 質問と回答のスタイル */
+/* 質問のスタイル */
+.question {
+    background-color: #e0e0e0;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    font-size: 1.2em;
+    line-height: 1.6;
+    position: relative;
+}
+
+.question:last-child {
+    margin-bottom: 0;
+}
+
+/* 回答グループ */
+.answers-container {
+    width: 100%;
+    margin: 0;
+}
+
+/* 回答のスタイル */
+.answer {
+    background-color: #fff;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+.answer:last-child {
+    margin-bottom: 0;
+}
+
+/* レイアウト変更の区切り */
+.layout-change {
+    text-align: center;
+    margin: 200px 0;
+    opacity: 0;
+}
+
+.layout-change hr {
+    width: 50%;
+    margin: 20px auto;
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+.layout-change p {
+    font-size: 1.5em;
+    color: #666;
+    letter-spacing: 0.2em;
+}
+
+/* 代替レイアウト（右寄せ） */
+.layout-alt .questions-container {
+    margin-left: auto;
+    margin-right: 0%; /* 10%から5%に変更してより右寄りに */
+}
+
+
+/* 新しいレイアウト */
+.layout-alt .question {
+    background-color: #f0f0f0;
+}
+
+.layout-alt .answers-container {
+    margin-left: auto;
+    margin-right: 5%; /* 中央配置から右寄りに変更 */
+    margin-left: auto;
+}
+
+.layout-alt .answer {
+    text-align: center;
+    background-color: #fff;
+}
+
+/* セクション導入部分のスタイル */
+.section-intro {
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 0 0 200px -20px;
+    opacity: 0;
+    padding: 0;
+    background: #fff;
+    position: relative;
+    box-shadow: none;
+    flex-direction: row-reverse;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    position: relative;
+    overflow: hidden;
+}
+
+.section-intro.right-aligned {
+    /* right-aligned クラスがある場合は画像を左側に配置 */
+    flex-direction: row;
+}
+
+.section-image {
+    flex: 1.5;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* coverからcontainに変更 */
+    object-position: center;
+    padding: 20px; /* 画像の周りに余白を追加 */
+}
+
+.section-description {
+    flex: 1;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+    z-index: 1; /* テキストを確実に前面に */
+}
+
+.section-description h2 {
+    font-size: 3em;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+.section-description p {
+    font-size: 1.2em;
+    line-height: 1.8;
+    color: #666;
+}
+
+/* 回答間の画像スタイル */
+.interview-image {
+    margin: 120px auto; /* マージンを80pxから120pxに増加 */
+    max-width: 1200px; /* max-widthを800pxから1200pxに増加 */
+    opacity: 0;
+    transform: translateY(30px);
+    background-color: #fff;
+    padding: 30px; /* paddingを20pxから30pxに増加 */
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.interview-image figure {
+    margin: 0;
+    padding: 0;
+}
+
+.interview-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.interview-image figcaption {
+    text-align: center;
+    color: #666;
+    font-size: 1.1em; /* フォントサイズを0.9emから1.1emに増加 */
+    margin-top: 20px; /* マージンを12pxから20pxに増加 */
+}
+
+
+/* 横並び2枚画像のグリッド */
+.interview-image-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin: 80px auto;
+    max-width: 800px;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.interview-image-grid figure {
+    margin: 0;
+    padding: 0;
+}
+
+.interview-image-grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.interview-image-grid figcaption {
+    text-align: center;
+    color: #666;
+    font-size: 0.9em;
+    margin-top: 12px;
+}
+
+/* アニメーション用の初期状態 */
+.interview-item {
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(50px);
+    position: relative;
+}
+
+/* 固定画像のスタイル更新 */
+.fixed-side-image {
+    width: 45%;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.fixed-side-image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.fixed-side-image.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Part 1の固定画像（右側） */
+#part1-image {
+    width: 50%; /* 45%から50%に増加 */
+    right: 3%; /* 5%から3%に変更して、より画面中央よりに */
+}
+
+/* Part 2の固定画像（左側） */
+#part2-image {
+    left: 5%;
+}
+
+.image-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    font-size: 16.5px;
+}
+
+.image-container svg {
+    max-width: 80%;
+    max-height: 80%;
+    display: flex;
+    align-items: center;
+}
+
+.bunshou-container{
+    position: relative;
+}
+
+.bunshou,.bunshou2{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* Part 1のレイアウト（左寄せ） */
+.interview-item:not(.layout-alt) .qa-container {
+    margin-left: 0;
+    padding-left: 5%;
+}
+
+/* Part 2のレイアウト（右寄せ） */
+.interview-item.layout-alt .qa-container {
+    margin-left: auto;
+    margin-right: 0;
+    padding-right: 5%;
+}
+
+/* Part 1の質問（左側からの吹き出し） */
+.interview-item:not(.layout-alt) .question {
+    margin-left: 20px;
+}
+
+.interview-item:not(.layout-alt) .question::after {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 20px;
+    border-width: 15px 15px 15px 0;
+    border-style: solid;
+    border-color: transparent #e0e0e0 transparent transparent;
+}
+
+/* Part 2の質問（右側からの吹き出し） */
+.interview-item.layout-alt .question {
+    margin-right: 20px;
+}
+
+.interview-item.layout-alt .question::after {
+    content: '';
+    position: absolute;
+    right: -15px;
+    top: 20px;
+    border-width: 15px 0 15px 15px;
+    border-style: solid;
+    border-color: transparent transparent transparent #e0e0e0;
+}
+
+/* Part 1の質問コンテナ */
+.interview-item:not(.layout-alt) .questions-container {
+    width: 95%; /* 90%から95%に拡大 */
+    margin: 0 0 30px -3%; /* 下マージンを20pxから30pxに増加 */
+}
+
+/* Part 1の回答コンテナ */
+.interview-item:not(.layout-alt) .answers-container {
+    width: 100%;
+    margin: 0 -5% 0 8%; /* 左マージンを3%から8%に増加してより右寄りに */
+}
+
+/* Part 2の質問コンテナ */
+.interview-item.layout-alt .questions-container {
+    width: 95%; /* 90%から95%に拡大 */
+    margin: 0 -3% 30px auto;
+}
+
+/* Part 2の回答コンテナ */
+.interview-item.layout-alt .answers-container {
+    width: 100%;
+    margin: 0 8% 0 -5%; /* 右マージンを3%から8%に増加してより左寄りに */
+}
+
+
+/* レスポンシブ対応 */
+@media (max-width: 1400px) {
+    #part1-image {
+        width: 48%;
+        right: 3%;
+    }
+
+    .qa-container {
+        width: 48%;
+    }
+    
+    .fixed-side-image {
+        width: 45%;
+    }
+    
+    .question, .answer {
+        font-size: 1.15em;
+    }
+}
+
+@media (max-width: 1300px) {
+    .interview-image {
+        max-width: 90%;
+        margin: 100px auto;
+    }
+}
+
+@media (max-width: 1200px) {
+    #part1-image {
+        width: 46%;
+        right: 2%;
+    }
+
+    .qa-container {
+        width: 50%;
+    }
+    
+    .fixed-side-image {
+        width: 40%;
+    }
+    
+    .question, .answer {
+        padding: 25px;
+        font-size: 1.1em;
+    }
+
+    .section-intro {
+        min-height: auto; /* 固定の高さを解除 */
+        padding: 60px 0;
+    }
+    
+    .section-image {
+        height: auto; /* 固定の高さを解除 */
+        min-height: 500px;
+    }
+    
+    .section-image img {
+        max-height: 80vh; /* 最大高さを制限 */
+    }
+    
+    .section-description {
+        padding: 40px;
+    }
+}
+
+@media (max-width: 992px) {
+    #part1-image {
+        width: 44%;
+        right: 2%;
+    }
+
+    .qa-container {
+        width: 55%;
+    }
+    
+    .fixed-side-image {
+        width: 35%;
+    }
+
+    .section-intro {
+        min-height: 80vh;
+    }
+    
+    .section-description {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-intro {
+        flex-direction: column;
+        padding: 40px 0;
+    }
+
+    .interview-image-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .section-intro.right-aligned {
+        flex-direction: column;
+    }
+
+    .section-image {
+        width: 100%;
+        min-height: auto; /* 固定の高さを解除 */
+        padding: 20px 0;
+    }
+
+    .section-image img {
+        max-height: 60vh;
+        width: auto; /* 画像の比率を維持 */
+        max-width: 90%; /* 横幅の最大値を制限 */
+        margin: 0 auto; /* 中央揃え */
+    }
+
+    .section-description {
+        width: 100%;
+        padding: 40px 20px;
+    }
+
+    .section-description h2 {
+        font-size: 2.4em;
+    }
+
+    .questions-container,
+    .layout-alt .questions-container {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .answers-container,
+    .layout-alt .answers-container {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .qa-container {
+        width: 90%;
+        margin: 0 auto !important;
+    }
+
+    .question, .answer {
+        padding: 20px;
+        font-size: 1em;
+    }
+
+    .questions-container,
+    .answers-container {
+        width: 100% !important;
+        margin: 0 0 20px 0 !important;
+    }
+
+
+    .interview-item {
+        margin-bottom: 60px;
+    }
+
+    .interview-item:not(.layout-alt) .qa-container,
+    .interview-item.layout-alt .qa-container {
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    /* モバイル表示での質問と回答の配置 */
+    .interview-item:not(.layout-alt) .questions-container,
+    .interview-item.layout-alt .questions-container {
+        width: 95%;
+        margin: 0 auto 20px;
+    }
+    
+    .interview-item:not(.layout-alt) .answers-container,
+    .interview-item.layout-alt .answers-container {
+        width: 100%;
+        margin: 0 auto; /* モバイルでは中央揃えに戻す */
+    }
+    
+    .fixed-side-image {
+        display: none; /* モバイル表示では固定画像を非表示に */
+    }
+
+    .fixed-side-image, #part1-image {
+        position: static;
+        width: 100%;
+        margin: 20px auto;
+        transform: none;
+        display: block;
+    }
+    
+    #part1-image, #part2-image {
+        left: auto;
+        right: auto;
+    }
+
+    .interview-image {
+        max-width: 95%;
+        margin: 80px auto;
+        padding: 20px;
+    }
+    
+    .interview-image figcaption {
+        font-size: 1em;
+        margin-top: 15px;
+    }
+
+    .question {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .interview-item:not(.layout-alt) .question::after,
+    .interview-item.layout-alt .question::after {
+        display: none; /* 吹き出しの矢印を非表示に */
+    }
+
+    }
+
+    @media (max-width: 576px) {
+        .section-intro {
+            padding: 30px 0;
+        }
+
+        .section-image {
+            padding: 15px 0;
+        }
+        
+        .section-image img {
+            max-height: 50vh;
+            max-width: 95%;
+        }
+        
+        .section-description {
+            padding: 30px 15px;
+        }
+        
+        .section-description h2 {
+            font-size: 2em;
+        }
+
+        .qa-container {
+            width: 95%;
+        }
+    
+        .question, .answer {
+            padding: 15px;
+            font-size: 0.95em;
+        }
+    }
+
+@media screen and (max-width: 480px) {
+    .image-container svg {
+        max-width: 96%;
+        max-height: 96%;
+    }
+}
+
+/* 画面アスペクト比への対応 */
+@media (aspect-ratio: 16/9), (aspect-ratio: 16/10) {
+    .section-image img {
+        object-position: center center;
+    }
+}
+
+@media (aspect-ratio: 4/3) {
+    .section-image img {
+        object-position: center center;
+    }
+}
+
+@media (min-aspect-ratio: 21/9) {
+    .section-intro {
+        min-height: 90vh;
+    }
+}
+
+/* 画像の表示調整 */
+@supports (-webkit-touch-callout: none) {
+    /* iOS用の調整 */
+    .section-image img {
+        height: auto;
+        max-height: 70vh;
+    }
+}
+
