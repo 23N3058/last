@@ -1,17 +1,14 @@
 gsap.registerPlugin(ScrollTrigger);
 
-// HTMLに追加するグラデーション要素を作成
 const gradientOverlay = document.createElement('div');
 gradientOverlay.className = 'gradient-progress';
 document.body.appendChild(gradientOverlay);
 
-// スクロールに応じたグラデーション変化
 ScrollTrigger.create({
     trigger: 'body',
     start: 'top top',
     end: 'bottom bottom',
     onUpdate: (self) => {
-        // スクロール位置に応じてグラデーションの不透明度を変更
         gsap.to(gradientOverlay, {
             opacity: self.progress,
             duration: 0.1,
@@ -20,15 +17,12 @@ ScrollTrigger.create({
     }
 });
 
-
-// ヘッダーのアニメーション
 gsap.to('.site-header', {
     opacity: 1,
     duration: 1.2,
     ease: 'power2.out'
 });
 
-// セクション導入部分のアニメーション
 gsap.utils.toArray('.section-intro').forEach((section) => {
     gsap.to(section, {
         scrollTrigger: {
@@ -44,7 +38,6 @@ gsap.utils.toArray('.section-intro').forEach((section) => {
     });
 });
 
-// レイアウト変更の区切りのアニメーション
 gsap.to('.layout-change', {
     scrollTrigger: {
         trigger: '.layout-change',
@@ -57,7 +50,6 @@ gsap.to('.layout-change', {
     ease: 'power2.out'
 });
 
-// インタビューアイテムのアニメーション
 gsap.utils.toArray('.interview-item').forEach((item) => {
     gsap.to(item, {
         scrollTrigger: {
@@ -73,8 +65,8 @@ gsap.utils.toArray('.interview-item').forEach((item) => {
     });
 });
 
-// 質問と回答のスタガードアニメーション
 gsap.utils.toArray('.interview-item').forEach((item) => {
+    const sectionHeading = item.querySelector('.section-heading');
     const questions = item.querySelectorAll('.question');
     const answers = item.querySelectorAll('.answer');
     const isAlt = item.classList.contains('layout-alt');
@@ -88,27 +80,36 @@ gsap.utils.toArray('.interview-item').forEach((item) => {
         }
     });
 
-    // 質問のアニメーション
+    if (sectionHeading) {
+        tl.from(sectionHeading, {
+            y: 30,
+            opacity: 0,
+            duration: 0.6,
+            ease: 'power2.out'
+        });
+    }
+
+
     questions.forEach((question, index) => {
         tl.from(question, {
             x: isAlt ? 50 : -50,
             opacity: 0,
             duration: 0.4
-        }, index === 0 ? 0 : '-=0.2');
+        }, index === 0 ? '-=0.2' : '-=0.2');
     });
 
-    // 回答のアニメーション
+
     answers.forEach((answer, index) => {
         tl.from(answer, {
-            x: isAlt ? -300 : 300, // Part1は右から、Part2は左からスライドイン
+            x: isAlt ? -300 : 300,
             opacity: 0,
             duration: 0.6,
             ease: 'power2.out'
-        }, `-=0.3`);
+        }, '-=0.3');
     });
 });
 
-// 画像のアニメーション
+
 gsap.utils.toArray('.interview-image, .interview-image-grid').forEach((image) => {
     gsap.to(image, {
         scrollTrigger: {
@@ -127,41 +128,64 @@ gsap.utils.toArray('.interview-image, .interview-image-grid').forEach((image) =>
 const part1Image = document.querySelector('#part1-image');
 const part2Image = document.querySelector('#part2-image');
 
-// Part 1 items (right side)
+
 gsap.utils.toArray('.interview-item:not(.layout-alt)').forEach((item) => {
     ScrollTrigger.create({
         trigger: item,
-        start: 'top center',
-        end: 'bottom center',
+        start: 'top center', 
+        end: 'bottom center', 
         onEnter: () => {
-            part1Image.classList.add('visible');
-            part2Image.classList.remove('visible');
+            document.querySelector('#part1-image').classList.add('visible')
+            document.querySelector('#part2-image').classList.remove('visible');
         },
-        onLeave: () => part1Image.classList.remove('visible'),
+        onLeave: () => {
+            document.querySelector('#part1-image').classList.remove('visible');
+        },
         onEnterBack: () => {
-            part1Image.classList.add('visible');
-            part2Image.classList.remove('visible');
+            document.querySelector('#part1-image').classList.add('visible');
+            document.querySelector('#part2-image').classList.remove('visible');
         },
-        onLeaveBack: () => part1Image.classList.remove('visible')
+        onLeaveBack: () => {
+            document.querySelector('#part1-image').classList.remove('visible');
+        }
     });
 });
 
-// Part 2 items (left side)
 gsap.utils.toArray('.interview-item.layout-alt').forEach((item) => {
     ScrollTrigger.create({
         trigger: item,
         start: 'top center',
         end: 'bottom center',
         onEnter: () => {
-            part2Image.classList.add('visible');
-            part1Image.classList.remove('visible');
+            document.querySelector('#part2-image').classList.add('visible');
+            document.querySelector('#part1-image').classList.remove('visible');
         },
-        onLeave: () => part2Image.classList.remove('visible'),
+        onLeave: () => {
+            document.querySelector('#part2-image').classList.remove('visible');
+        },
         onEnterBack: () => {
-            part2Image.classList.add('visible');
-            part1Image.classList.remove('visible');
+            document.querySelector('#part2-image').classList.add('visible');
+            document.querySelector('#part1-image').classList.remove('visible');
         },
-        onLeaveBack: () => part2Image.classList.remove('visible')
+        onLeaveBack: () => {
+            document.querySelector('#part2-image').classList.remove('visible');
+        }
+    });
+});
+
+gsap.utils.toArray('.section-intro, .layout-change').forEach((item) => {
+    ScrollTrigger.create({
+        trigger: item,
+        start: 'top center',
+        end: 'bottom center',
+        onEnter: () => {
+            document.querySelector('#part1-image').classList.remove('visible');
+            document.querySelector('#part2-image').classList.remove('visible');
+        },
+        onEnterBack: () => {
+            document.querySelector('#part1-image').classList.remove('visible');
+            document.querySelector('#part2-image').classList.remove('visible');
+        }
     });
 });
 
@@ -177,7 +201,6 @@ ScrollTrigger.create({
     end:'+=2000',
     pin:true,
     scrub:true,
-//     markers:true,
     onUpdate:(self)=>{
         if(self.progress<0.25){
             gsap.to('#layer01,#bunshou',{opacity:1});
@@ -193,4 +216,44 @@ ScrollTrigger.create({
             gsap.to('#bunshou',{opacity:0});
         }
         },
+});
+
+const backToTocButton = document.createElement('a');
+backToTocButton.href = '#';
+backToTocButton.className = 'back-to-toc';
+backToTocButton.textContent = '目次へ';
+document.body.appendChild(backToTocButton);
+
+
+let lastScrollPosition = 0;
+const showButtonPosition = 1000; 
+
+window.addEventListener('scroll', () => {
+    const currentScrollPosition = window.pageYOffset;
+    
+    const tocElement = document.querySelector('.table-of-contents');
+    const tocPosition = tocElement.getBoundingClientRect().top + window.pageYOffset;
+    
+
+    if (currentScrollPosition > tocPosition + showButtonPosition) {
+        backToTocButton.classList.add('visible');
+    } else {
+        backToTocButton.classList.remove('visible');
+    }
+    
+    lastScrollPosition = currentScrollPosition;
+});
+
+
+backToTocButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const tocElement = document.querySelector('.table-of-contents');
+    const windowHeight = window.innerHeight;
+    const tocHeight = tocElement.offsetHeight;
+    const offset = (windowHeight - tocHeight) / 2;
+    
+    window.scrollTo({
+        top: tocElement.offsetTop - offset,
+        behavior: 'smooth'
+    });
 });
